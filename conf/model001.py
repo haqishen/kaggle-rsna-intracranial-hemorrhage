@@ -1,4 +1,6 @@
-workdir = './model/model001'
+import os
+
+workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/workdir'; os.makedirs(workdir, exist_ok=True)
 seed = 20
 apex = True
 
@@ -7,7 +9,7 @@ epoch = 3
 resume_from = None
 
 batch_size = 28
-num_workers = 4
+num_workers = 32
 imgsize = (512, 512) #(height, width)
 
 loss = dict(
@@ -52,8 +54,8 @@ window_policy = 2
 data = dict(
     train=dict(
         dataset_type='CustomDataset',
-        annotations='./cache/train_folds.pkl',
-        imgdir='./input/stage_1_train_images',
+        annotations='/data/src/RSNA/train_v3.csv',
+        imgdir='/data/data/stage_1_train_images',
         imgsize=imgsize,
         n_grad_acc=1,
         loader=dict(
@@ -69,8 +71,8 @@ data = dict(
     ),
     valid = dict(
         dataset_type='CustomDataset',
-        annotations='./cache/train_folds.pkl',
-        imgdir='./input/stage_1_train_images',
+        annotations='/data/src/RSNA/train_v3.csv',
+        imgdir='/data/data/stage_1_train_images',
         imgsize=imgsize,
         loader=dict(
             shuffle=False,
@@ -86,7 +88,7 @@ data = dict(
     test = dict(
         dataset_type='CustomDataset',
         annotations='./cache/test.pkl',
-        imgdir='./input/stage_1_test_images',
+        imgdir='/data/data/stage_1_test_images',
         imgsize=imgsize,
         loader=dict(
             shuffle=False,
