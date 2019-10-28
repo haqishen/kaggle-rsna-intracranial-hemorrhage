@@ -1,6 +1,6 @@
 import os
 
-workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/seres50_2'; os.makedirs(workdir, exist_ok=True)
+workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/seres50_mine'; os.makedirs(workdir, exist_ok=True)
 seed = 20
 apex = True
 
@@ -8,7 +8,7 @@ n_fold = 5
 epoch = 3
 resume_from = None
 
-batch_size = 32
+batch_size = 28
 num_workers = 32
 imgsize = (512, 512) #(height, width)
 
