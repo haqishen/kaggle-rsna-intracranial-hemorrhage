@@ -1,4 +1,5 @@
 import sys
+sys.path.append('/data/src/kaggle-rsna-intracranial-hemorrhage/src')
 import argparse
 import functools
 import pickle
