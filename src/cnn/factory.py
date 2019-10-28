@@ -9,6 +9,8 @@ import albumentations as A
 from albumentations.pytorch import ToTensor
 import pretrainedmodels
 
+from effnet import enetv2
+
 from .dataset.custom_dataset import CustomDataset
 from .transforms.transforms import RandomResizedCrop
 from .utils.logger import log
@@ -46,6 +48,9 @@ def get_model(cfg):
     if cfg.model.name in ['resnext101_32x8d_wsl']:
         model = torch.hub.load('facebookresearch/WSL-Images', cfg.model.name)
         model.fc = torch.nn.Linear(2048, cfg.model.n_output)
+        return model
+    elif 'efficientnet' in cfg.model.name:
+        model = enetv2(cfg.model.name, cfg.model.n_output)
         return model
 
     try:

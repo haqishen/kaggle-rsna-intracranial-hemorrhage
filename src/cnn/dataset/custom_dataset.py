@@ -38,6 +38,18 @@ def apply_window_policy(image, row, policy):
             image2 - image2.mean(),
             image3 - image3.mean(),
         ]).transpose(1,2,0)
+    elif policy == 3:
+        image1 = misc.apply_window(image, 40, 80) # brain
+        image2 = misc.apply_window(image, 80, 200) # subdural
+        image3 = misc.apply_window(image, 40, 380) # bone
+        image1 = (image1 - 0) / 80
+        image2 = (image2 - (-20)) / 200
+        image3 = (image3 - (-150)) / 380
+        image = np.array([
+            image1 - image1.mean(),
+            image2 - image2.mean(),
+            image3 - image3.mean(),
+        ]).transpose(1,2,0)
     else:
         raise
 
@@ -68,16 +80,15 @@ class CustomDataset(torch.utils.data.Dataset):
         log(f'window_policy: {self.cfg.window_policy}')
 
         self.transforms = factory.get_transforms(self.cfg)
-        # with open(cfg.annotations, 'rb') as f:
-        #     self.df = pickle.load(f)
-        self.df = pd.read_csv(cfg.annotations)
+        with open(cfg.annotations, 'rb') as f:
+            self.df = pickle.load(f)
 
         if folds:
             self.df = self.df[self.df.fold.isin(folds)]
             log('read dataset (%d records)' % len(self.df))
 
         self.df = apply_dataset_policy(self.df, self.cfg.dataset_policy)
-        self.df = self.df.sample(560)
+        # self.df = self.df.sample(560)
 
     def __len__(self):
         return len(self.df)
