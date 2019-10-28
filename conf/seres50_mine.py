@@ -8,7 +8,7 @@ n_fold = 5
 epoch = 3
 resume_from = None
 
-batch_size = 28
+batch_size = 32
 num_workers = 32
 imgsize = (512, 512) #(height, width)
 
@@ -49,7 +49,7 @@ contrast = dict(name='RandomBrightnessContrast', params=dict(brightness_limit=0.
 totensor = dict(name='ToTensor', params=dict(normalize=normalize))
 rotate = dict(name='Rotate', params=dict(limit=30, border_mode=0), p=0.7)
 
-window_policy = 2
+window_policy = 3
 
 data = dict(
     train=dict(

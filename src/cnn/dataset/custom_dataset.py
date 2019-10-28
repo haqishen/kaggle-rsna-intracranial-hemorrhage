@@ -39,12 +39,14 @@ def apply_window_policy(image, row, policy):
             image3 - image3.mean(),
         ]).transpose(1,2,0)
     elif policy == 3:
-        image1 = misc.apply_window(image, 40, 80) # brain
-        image2 = misc.apply_window(image, 80, 200) # subdural
-        image3 = misc.apply_window(image, 40, 380) # bone
-        image1 = (image1 - 0) / 80
-        image2 = (image2 - (-20)) / 200
-        image3 = (image3 - (-150)) / 380
+        C = row.WindowCenter
+        W = 254
+        image1 = misc.apply_window(image, C - W, W) # brain
+        image2 = misc.apply_window(image, C + W, W) # subdural
+        image3 = misc.apply_window(image, C, W)
+        image1 = (image1 - (C - W - W//2)) / W
+        image2 = (image2 - (C + W - W//2)) / W
+        image3 = (image3 - (C - W//2)) / W
         image = np.array([
             image1 - image1.mean(),
             image2 - image2.mean(),
