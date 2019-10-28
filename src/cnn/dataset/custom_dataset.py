@@ -68,8 +68,9 @@ class CustomDataset(torch.utils.data.Dataset):
         log(f'window_policy: {self.cfg.window_policy}')
 
         self.transforms = factory.get_transforms(self.cfg)
-        with open(cfg.annotations, 'rb') as f:
-            self.df = pickle.load(f)
+        # with open(cfg.annotations, 'rb') as f:
+        #     self.df = pickle.load(f)
+        self.df = pd.read_csv(cfg.annotations)
 
         if folds:
             self.df = self.df[self.df.fold.isin(folds)]
