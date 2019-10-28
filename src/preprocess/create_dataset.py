@@ -1,4 +1,6 @@
 import sys
+sys.path.append('/data/src/kaggle-rsna-intracranial-hemorrhage/src')
+
 import argparse
 import collections
 import pickle
@@ -7,7 +9,7 @@ from pprint import pprint
 import pandas as pd
 from tqdm import tqdm
 
-from ..utils import misc
+from utils import misc
 
 
 def get_args():
