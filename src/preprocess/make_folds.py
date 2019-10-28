@@ -14,7 +14,7 @@ def get_args():
     parser.add_argument('--input')
     parser.add_argument('--output')
     parser.add_argument('--n-fold', type=int, default=5)
-    parser.add_argument('--seed', type=int, default=10)
+    parser.add_argument('--seed', type=int, default=42)
     return parser.parse_args()
 
 

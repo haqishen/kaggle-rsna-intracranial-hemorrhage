@@ -16,10 +16,10 @@ from ..utils import misc
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', help='provided by kaggle, stage_1_train.csv for stage1')
-    parser.add_argument('--output')
-    parser.add_argument('--imgdir')
-    parser.add_argument('--n-pool', default=4, type=int)
+    parser.add_argument('--input', default='/data/data/RSNA/stage_1_train.csv')
+    parser.add_argument('--output', default='/data/src/kaggle-rsna-intracranial-hemorrhage/train.csv')
+    parser.add_argument('--imgdir', default='/data/data/RSNA/stage_1_train_images/')
+    parser.add_argument('--n-pool', default=32, type=int)
     parser.add_argument('--nrows', default=None, type=int)
     return parser.parse_args()
 
