@@ -12,7 +12,7 @@ from tqdm import tqdm
 import numpy as np
 np.seterr(over='ignore')
 
-from ..utils import misc
+from utils import misc
 
 
 def get_args():
