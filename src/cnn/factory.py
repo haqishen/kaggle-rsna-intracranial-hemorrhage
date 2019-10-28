@@ -9,7 +9,7 @@ import albumentations as A
 from albumentations.pytorch import ToTensor
 import pretrainedmodels
 
-# from effnet import enetv2
+from effnet import enetv2
 
 from .dataset.custom_dataset import CustomDataset
 from .transforms.transforms import RandomResizedCrop
