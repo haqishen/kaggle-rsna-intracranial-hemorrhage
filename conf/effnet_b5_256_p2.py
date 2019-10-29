@@ -10,9 +10,9 @@ n_fold = 5
 epoch = 3
 resume_from = None
 
-batch_size = 44
+batch_size = 64
 num_workers = 32
-imgsize = (224, 224) # (height, width)
+imgsize = (256, 256) # (height, width)
 
 loss = dict(
     name='BCEWithLogitsLoss',
@@ -27,7 +27,7 @@ optim = dict(
 )
 
 model = dict(
-    name='efficientnet-b7',
+    name='efficientnet-b5',
     pretrained='imagenet',
     n_output=6,
 )
