@@ -1,6 +1,6 @@
 import os
 
-workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b7_2'; os.makedirs(workdir, exist_ok=True)
+workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b7_224_p2'; os.makedirs(workdir, exist_ok=True)
 seed = 20
 apex = True
 
@@ -10,9 +10,9 @@ n_fold = 5
 epoch = 3
 resume_from = None
 
-batch_size = 8
+batch_size = 36
 num_workers = 32
-imgsize = (512, 512) #(height, width)
+imgsize = (224, 224) # (height, width)
 
 loss = dict(
     name='BCEWithLogitsLoss',
