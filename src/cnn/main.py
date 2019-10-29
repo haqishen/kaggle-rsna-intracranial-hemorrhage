@@ -194,7 +194,7 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
 
         elapsed = int(time.time() - t1)
         eta = int(elapsed / (i+1) * (len(loader)-(i+1)))
-        progress = f'\r[{mode}] {i+1}/{len(loader)} {elapsed}(s) eta:{eta}(s) loss:{(np.sum(losses)/(i+1)):.6f} loss200:{(np.sum(losses[-200:])/(min(i+1,200))):.6f} lr:{util.get_lr(optim):.2e}'
+        progress = f'\r[{mode}] {i+1}/{len(loader)} {elapsed}(s) eta:{eta}(s) loss:{(np.sum(losses)/(i+1)):.6f} loss200:{(np.mean(losses[-200:])):.6f} lr:{util.get_lr(optim):.2e}'
         print(progress, end='')
         sys.stdout.flush()
 
