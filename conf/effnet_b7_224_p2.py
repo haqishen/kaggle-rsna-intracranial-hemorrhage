@@ -7,7 +7,7 @@ apex = True
 window_policy = 2
 
 n_fold = 5
-epoch = 3
+epoch = 4
 resume_from = None
 
 batch_size = 44
