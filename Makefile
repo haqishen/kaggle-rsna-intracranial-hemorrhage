@@ -13,10 +13,10 @@ test = /data/src/kaggle-rsna-intracranial-hemorrhage/exp/${folder}/fold${fold}_e
 sub = /data/src/kaggle-rsna-intracranial-hemorrhage/exp/${folder}/${model}_fold${fold}_ep${ep}_test_tta${tta}.csv
 message = ${sub}
 
-wait_seconds = 0
+waits = 0
 
 wait:
-	@python wait.py ${wait_seconds}
+	@python wait.py ${waits}
 
 train: wait
 	@python -m src.cnn.main train ${conf} --fold ${fold} --gpu ${gpu}
