@@ -1,6 +1,6 @@
 import os
 
-workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b3_2'; os.makedirs(workdir, exist_ok=True)
+workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b3_512_p2'; os.makedirs(workdir, exist_ok=True)
 seed = 20
 apex = True
 
