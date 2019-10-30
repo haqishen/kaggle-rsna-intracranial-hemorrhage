@@ -1,10 +1,10 @@
 import os
 
-workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b1_512_p2'; os.makedirs(workdir, exist_ok=True)
+workdir = '/data/src/kaggle-rsna-intracranial-hemorrhage/exp/effnet_b1_512_p3'; os.makedirs(workdir, exist_ok=True)
 seed = 20
 apex = True
 
-window_policy = 2
+window_policy = 3
 
 n_fold = 5
 epoch = 3
