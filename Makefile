@@ -36,5 +36,5 @@ train04: wait
 
 predict: wait
 	@python -m src.cnn.main test ${conf} --snapshot ${snapshot} --output ${test} --n-tta ${tta} --fold ${fold} --gpu ${gpu}
-	@python -m src.postprocess.make_submission --input ${test} --output ${sub} --clip ${clip}
+# 	@python -m src.postprocess.make_submission --input ${test} --output ${sub} --clip ${clip}
 # 	kaggle competitions submit rsna-intracranial-hemorrhage-detection -m "${message}" -f ${sub}
