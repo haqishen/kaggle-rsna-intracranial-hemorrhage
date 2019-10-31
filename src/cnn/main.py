@@ -23,7 +23,7 @@ from .utils.logger import logger, log
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('mode', choices=['train', 'valid', 'test'])
+    parser.add_argument('mode', choices=['train', 'ptrain', 'valid', 'test'])
     parser.add_argument('config')
     parser.add_argument('--debug', action='store_true')
     parser.add_argument('--fold', type=int, required=True)
@@ -63,6 +63,8 @@ def main():
 
     if cfg.mode == 'train':
         train(cfg, model)
+    elif cfg.mode == 'train':
+        ptrain(cfg, model)
     elif cfg.mode == 'valid':
         valid(cfg, model)
     elif cfg.mode == 'test':
@@ -149,6 +151,54 @@ def train(cfg, model):
         scheduler.step()
 
 
+def ptrain(cfg, model):
+
+    # only run ep2
+    cfg.optim['params']['lr'] *= 4.0/9.0
+    criterion = factory.get_loss(cfg)
+    optim = factory.get_optim(cfg, model.parameters())
+
+    # load ep1 model file
+    m_file = os.path.join(cfg.workdir, 'fold%d_ep1.pt' % (cfg.fold))
+    detail = util.load_model(m_file, model, optim=None)
+    best = {
+        'loss': detail['loss'],
+        'score': detail['score'],
+        'epoch': detail['epoch'],
+    }
+
+    # get dataset with pseudo
+    folds = [fold for fold in range(cfg.n_fold) if cfg.fold != fold]
+    loader_train = factory.get_dataloader(cfg.data.train, folds, with_pseudo=True)
+    loader_valid = factory.get_dataloader(cfg.data.valid, [cfg.fold])
+
+    log('train data: loaded %d records' % len(loader_train.dataset))
+    log('valid data: loaded %d records' % len(loader_valid.dataset))
+
+    log('apex %s' % cfg.apex)
+    if cfg.apex:
+        amp.initialize(model, optim, opt_level='O1')
+
+    epoch = 2
+    log(f'\n----- epoch {epoch} -----')
+    util.set_seed(epoch)
+
+    run_nn(cfg.data.train, 'train', model, loader_train, criterion=criterion, optim=optim, apex=cfg.apex)
+    with torch.no_grad():
+        val = run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion)
+
+    detail = {
+        'score': val['score'],
+        'loss': val['loss'],
+        'epoch': epoch,
+    }
+    if val['loss'] <= best['loss']:
+        best.update(detail)
+
+    util.save_model(model, optim, detail, cfg.fold, cfg.workdir)
+    log('[best] ep:%d loss:%.4f score:%.4f' % (best['epoch'], best['loss'], best['score']))
+
+
 def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None, apex=None):
     if mode in ['train']:
         model.train()
@@ -206,12 +256,11 @@ def run_nn(cfg, mode, model, loader, criterion=None, optim=None, scheduler=None,
     }
 
     if mode in ['train', 'valid']:
-        result.update(calc_auc(result['targets'], result['outputs']))
+        # result.update(calc_auc(result['targets'], result['outputs']))
         result.update(calc_logloss(result['targets'], result['outputs']))
         result['score'] = result['logloss']
 
-        log(progress + ' auc:%.4f micro:%.4f macro:%.4f' % (result['auc'], result['auc_micro'], result['auc_macro']))
-        log('%.6f %s' % (result['logloss'], np.round(result['logloss_classes'], 6)))
+        log(progress + ' %.6f %s' % (result['logloss'], np.round(result['logloss_classes'], 6)))
     else:
         log('')
 
@@ -231,15 +280,14 @@ def calc_logloss(targets, outputs, eps=1e-5):
     }
 
 
-def calc_auc(targets, outputs):
-    macro = roc_auc_score(np.floor(targets), outputs, average='macro')
-    micro = roc_auc_score(np.floor(targets), outputs, average='micro')
-    return {
-        'auc': (macro + micro) / 2,
-        'auc_macro': macro,
-        'auc_micro': micro,
-    }
-
+# def calc_auc(targets, outputs):
+#     macro = roc_auc_score(np.floor(targets), outputs, average='macro')
+#     micro = roc_auc_score(np.floor(targets), outputs, average='micro')
+#     return {
+#         'auc': (macro + micro) / 2,
+#         'auc_macro': macro,
+#         'auc_micro': micro,
+#     }
 
 
 if __name__ == '__main__':
