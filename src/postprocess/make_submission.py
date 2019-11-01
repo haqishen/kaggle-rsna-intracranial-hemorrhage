@@ -59,7 +59,7 @@ def main():
         folders = args.inputs.split(',')
         inputs = []
         for folder in folders:
-            inputs += glob.glob(f'{folder}/*tta5.pkl')
+            inputs += glob.glob(f'{folder}/*test_tta5.pkl')
         result = parse_inputs(inputs)
 
     sub = pd.read_csv(args.sample_submission)
