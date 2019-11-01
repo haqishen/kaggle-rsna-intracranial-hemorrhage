@@ -3,7 +3,7 @@ import os
 import argparse
 import pickle
 import time
-
+import glob
 import pandas as pd
 import numpy as np
 
@@ -13,14 +13,13 @@ from ..utils import mappings
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input')
-    parser.add_argument('--inputs', help='for ensembling. can be recursively nested for averaging.')
+    parser.add_argument('--inputs', help='workdir name, split by `,`')
     parser.add_argument('--output', required=True)
     parser.add_argument('--sample_submission', default='/data/data/RSNA/stage_1_sample_submission.csv')
     parser.add_argument('--clip', type=float, default=1e-6)
 
     args = parser.parse_args()
     assert args.input or args.inputs
-
     return args
 
 
@@ -57,7 +56,11 @@ def main():
     if args.input:
         result = read_prediction(args.input)
     else:
-        result = parse_inputs(eval(args.inputs))
+        folders = args.inputs.split(',')
+        inputs = []
+        for folder in folders:
+            inputs += glob.glob('*tta5.pkl')
+        result = parse_inputs(inputs)
 
     sub = pd.read_csv(args.sample_submission)
     IDs = {}
