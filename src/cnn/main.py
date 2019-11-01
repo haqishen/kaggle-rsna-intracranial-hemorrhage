@@ -89,7 +89,8 @@ def valid(cfg, model):
     loader_valid = factory.get_dataloader(cfg.data.valid, [cfg.fold])
     with torch.no_grad():
         results = [run_nn(cfg.data.valid, 'valid', model, loader_valid, criterion=criterion) for i in range(cfg.n_tta)]
-    with open(cfg.output, 'wb') as f:
+    val_out_result = os.path.join(cfg.workdir, f'val_out_fold{cfg.fold}.pkl')
+    with open(val_out_result, 'wb') as f:
         pickle.dump(results, f)
     log('saved to %s' % cfg.output)
 
@@ -153,7 +154,7 @@ def train(cfg, model):
 
 def ptrain(cfg, model):
 
-    # only run ep2
+    # decrease lr
     cfg.optim['params']['lr'] *= 4.0/9.0
     criterion = factory.get_loss(cfg)
     optim = factory.get_optim(cfg, model.parameters())
@@ -179,7 +180,7 @@ def ptrain(cfg, model):
     if cfg.apex:
         amp.initialize(model, optim, opt_level='O1')
 
-    epoch = 2
+    epoch = 3  # run epoch 3 from epoch 1
     log(f'\n----- epoch {epoch} -----')
     util.set_seed(epoch)
 

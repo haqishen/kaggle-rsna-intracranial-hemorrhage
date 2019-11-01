@@ -22,9 +22,8 @@ def get_loss(cfg):
     return loss
 
 
-def get_dataloader(cfg, folds=None):
-    dataset = CustomDataset(cfg, folds)
-    # log('use default(random) sampler')
+def get_dataloader(cfg, folds=None, with_pseudo=False):
+    dataset = CustomDataset(cfg, folds, with_pseudo)
     loader = DataLoader(dataset, **cfg.loader)
     return loader
 

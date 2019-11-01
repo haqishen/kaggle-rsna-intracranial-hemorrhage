@@ -41,8 +41,8 @@ def apply_window_policy(image, row, policy):
     elif policy == 3:
         C = row.WindowCenter
         W = 254
-        image1 = misc.apply_window(image, C - W, W) # brain
-        image2 = misc.apply_window(image, C + W, W) # subdural
+        image1 = misc.apply_window(image, C - W, W)
+        image2 = misc.apply_window(image, C + W, W)
         image3 = misc.apply_window(image, C, W)
         image1 = (image1 - (C - W - W//2)) / W
         image2 = (image2 - (C + W - W//2)) / W
@@ -75,7 +75,7 @@ def apply_dataset_policy(df, policy):
 
 class CustomDataset(torch.utils.data.Dataset):
 
-    def __init__(self, cfg, folds):
+    def __init__(self, cfg, folds, with_pseudo=False):
         self.cfg = cfg
 
         log(f'dataset_policy: {self.cfg.dataset_policy}')
@@ -89,8 +89,12 @@ class CustomDataset(torch.utils.data.Dataset):
             self.df = self.df[self.df.fold.isin(folds)]
             log('read dataset (%d records)' % len(self.df))
 
+        if with_pseudo:
+            with open('/data/data/RNSA/pseudo.pkl', 'rb') as f:
+                df_pseudo = pickle.load(f)
+            self.df = pd.concat([self.df, df_pseudo], axis=0).reset_index()
+
         self.df = apply_dataset_policy(self.df, self.cfg.dataset_policy)
-        # self.df = self.df.sample(560)
 
     def __len__(self):
         return len(self.df)
