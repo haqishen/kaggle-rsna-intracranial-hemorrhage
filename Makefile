@@ -37,6 +37,13 @@ train04: wait
 	@python -m src.cnn.main train ${conf} --fold 3 --gpu ${gpu}
 	@python -m src.cnn.main train ${conf} --fold 4 --gpu ${gpu}
 
+ptrain04: wait
+	@python -m src.cnn.main ptrain ${conf} --fold 0 --gpu ${gpu}
+	@python -m src.cnn.main ptrain ${conf} --fold 1 --gpu ${gpu}
+	@python -m src.cnn.main ptrain ${conf} --fold 2 --gpu ${gpu}
+	@python -m src.cnn.main ptrain ${conf} --fold 3 --gpu ${gpu}
+	@python -m src.cnn.main ptrain ${conf} --fold 4 --gpu ${gpu}
+
 valid: wait
 	@python -m src.cnn.main valid ${conf} --snapshot ${snapshot} --output ${valid} --n-tta 1 --fold ${fold} --gpu ${gpu}
 
