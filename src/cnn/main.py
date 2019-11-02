@@ -63,7 +63,7 @@ def main():
 
     if cfg.mode == 'train':
         train(cfg, model)
-    elif cfg.mode == 'train':
+    elif cfg.mode == 'ptrain':
         ptrain(cfg, model)
     elif cfg.mode == 'valid':
         valid(cfg, model)
