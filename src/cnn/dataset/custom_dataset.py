@@ -90,7 +90,7 @@ class CustomDataset(torch.utils.data.Dataset):
             log('read dataset (%d records)' % len(self.df))
 
         if with_pseudo:
-            with open('/data/data/RNSA/pseudo_v1.pkl', 'rb') as f:
+            with open('/data/data/RSNA/pseudo_v1.pkl', 'rb') as f:
                 df_pseudo = pickle.load(f)
             self.df = pd.concat([self.df, df_pseudo], axis=0).reset_index()
 
