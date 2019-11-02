@@ -21,6 +21,9 @@ wait:
 train: wait
 	@python -m src.cnn.main train ${conf} --fold ${fold} --gpu ${gpu}
 
+ptrain: wait
+	@python -m src.cnn.main ptrain ${conf} --fold ${fold} --gpu ${gpu}
+
 train14: wait
 	@python -m src.cnn.main train ${conf} --fold 1 --gpu ${gpu}
 	@python -m src.cnn.main train ${conf} --fold 2 --gpu ${gpu}
@@ -45,6 +48,5 @@ makecsv:
 # 	@python -m src.postprocess.make_submission --input ${test} --output ${sub} --clip ${clip}
 # 	kaggle competitions submit rsna-intracranial-hemorrhage-detection -m "${message}" -f ${sub}
 
-# make model=effnet_b2_512_p2 gpu=2 fold=0 predict && make model=effnet_b2_512_p2 gpu=2 fold=1 predict && make model=effnet_b2_512_p2 gpu=2 fold=2 predict && make model=effnet_b2_512_p2 gpu=2 fold=3 predict && make model=effnet_b2_512_p2 gpu=2 fold=4 predict
-# make model=effnet_b2_512_p2 gpu=0 fold=3 predict && make model=effnet_b2_512_p2 gpu=0 fold=4 predict
-# make model=effnet_b3_512_p2 gpu=1 fold=4 predict
+# make model=effnet_b3_512_p3 gpu=1 fold=0 predict && make model=effnet_b3_512_p3 gpu=1 fold=1 predict && make model=effnet_b3_512_p3 gpu=0 fold=2 predict && make model=effnet_b3_512_p3 gpu=0 fold=3 predict && make model=effnet_b3_512_p3 gpu=0 fold=4 predict
+# make model=effnet_b3_512_p3 gpu=1 fold=4 predict && make model=effnet_b3_512_p3 gpu=0 fold=3 predict 
