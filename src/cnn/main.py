@@ -155,12 +155,12 @@ def train(cfg, model):
 def ptrain(cfg, model):
 
     # decrease lr
-    cfg.optim['params']['lr'] *= 1.0/5.0
+    cfg.optim['params']['lr'] *= 4.0/9.0
     criterion = factory.get_loss(cfg)
     optim = factory.get_optim(cfg, model.parameters())
 
     # load ep1 model file
-    m_file = os.path.join(cfg.workdir, 'fold%d_ep2.pt' % (cfg.fold))
+    m_file = os.path.join(cfg.workdir, 'fold%d_ep1.pt' % (cfg.fold))
     detail = util.load_model(m_file, model, optim=None)
     best = {
         'loss': detail['loss'],
@@ -180,7 +180,7 @@ def ptrain(cfg, model):
     if cfg.apex:
         amp.initialize(model, optim, opt_level='O1')
 
-    epoch = 4  # run epoch 3 from epoch 1
+    epoch = 3  # run epoch 3 from epoch 1
     log(f'\n----- epoch {epoch} -----')
     util.set_seed(epoch)
 
