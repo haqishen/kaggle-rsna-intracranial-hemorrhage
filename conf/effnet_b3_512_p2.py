@@ -43,7 +43,7 @@ scheduler = dict(
 #normalize = {'mean': [0.485, 0.456, 0.406], 'std': [0.229, 0.224, 0.225],}
 normalize = None
 
-crop = dict(name='RandomResizedCrop', params=dict(height=imgsize[0], width=imgsize[1], scale=(0.7,1.0), p=1.0))
+crop = dict(name='myRandomResizedCrop', params=dict(height=imgsize[0], width=imgsize[1], scale=(0.7,1.0), p=1.0))
 resize = dict(name='Resize', params=dict(height=imgsize[0], width=imgsize[1]))
 hflip = dict(name='HorizontalFlip', params=dict(p=0.5,))
 vflip = dict(name='VerticalFlip', params=dict(p=0.5,))
@@ -98,7 +98,7 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
-        transforms=[hflip, rotate, contrast, totensor],
+        transforms=[crop, hflip, rotate, contrast, totensor],
         dataset_policy='all',
         window_policy=window_policy,
     ),

@@ -11,7 +11,7 @@ import pretrainedmodels
 
 from .models.effnet import enetv2
 from .dataset.custom_dataset import CustomDataset
-from .transforms.transforms import RandomResizedCrop
+from .transforms.transforms import myRandomResizedCrop
 from .utils.logger import log
 
 

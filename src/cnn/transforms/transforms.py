@@ -12,7 +12,7 @@ def resized_crop(image, height, width, x_min, y_min, x_max, y_max):
     return image
 
 
-class RandomResizedCrop(ImageOnlyTransform):
+class myRandomResizedCrop(ImageOnlyTransform):
 
     def __init__(self, height, width, scale=(0.08, 1.0), ratio=(3/4, 4/3), always_apply=False, p=1.0):
         super().__init__(always_apply, p)
