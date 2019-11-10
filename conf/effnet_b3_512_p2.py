@@ -98,7 +98,7 @@ data = dict(
             num_workers=num_workers,
             pin_memory=False,
         ),
-        transforms=[crop, hflip, rotate, contrast, totensor],
+        transforms=[crop, hflip, totensor],
         dataset_policy='all',
         window_policy=window_policy,
     ),
