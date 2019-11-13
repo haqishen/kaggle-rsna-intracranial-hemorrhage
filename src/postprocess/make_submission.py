@@ -15,7 +15,7 @@ def get_args():
     parser.add_argument('--input')
     parser.add_argument('--inputs', default='exp/effnet_b1_512_p2', help='workdir name, split by `,`')
     parser.add_argument('--output', default='exp/effnet_b1_512_p2/exp/effnet_b1_512_p2_5fold_5tta.csv', required=True)
-    parser.add_argument('--sample_submission', default='/data/data/RSNA/stage_1_sample_submission.csv')
+    parser.add_argument('--sample_submission', default='/data/data/RSNA/stage_2_sample_submission.csv')
     parser.add_argument('--clip', type=float, default=1e-6)
 
     args = parser.parse_args()
